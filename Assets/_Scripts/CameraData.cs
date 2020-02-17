@@ -7,6 +7,7 @@ public class CameraData : MonoBehaviour
 {
     public CinemachineVirtualCamera targetCam;
     public string targetName;
+    public GameManager.GameStates refState;
 
 }
 
