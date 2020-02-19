@@ -16,8 +16,12 @@ public class DropController : MonoBehaviour
 
     public class FinishEvent:UnityEvent<Transform> {}
     public static FinishEvent FinishTarget = new FinishEvent();
-    
-    
+
+    private void Start()
+    {
+        FunctionHandler.GameStart.AddListener(ResetDrop);
+
+    }
     // Update is called once per frame
     void Update()
     {
@@ -52,14 +56,14 @@ public class DropController : MonoBehaviour
         {
           
             GameManager.Instance.GameState = GameManager.GameStates.Finish;
-            FinishTarget.Invoke(other.transform);
+            FinishTarget?.Invoke(other.transform);
             gameObject.SetActive(false);
             other.GetComponent<CitizenBehaviour>().enabled = false;
             //ResetDrop();
         }
     }
 
-    private void ResetDrop()
+    public void ResetDrop()
     {
         dropRigibody.velocity = Vector3.zero;
         transform.localPosition = Vector3.zero;

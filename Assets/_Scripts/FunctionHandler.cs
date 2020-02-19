@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
+
+public class GameStartEvent : UnityEvent { };
+public class MenuOpenEvent : UnityEvent<bool> { };
+
 public class FunctionHandler : Singleton<FunctionHandler>
 {
-
-    public UnityEvent<bool> menuOpenEvent;
+    public static GameStartEvent GameStart = new GameStartEvent();
+    public static MenuOpenEvent MenuOpenEvent = new MenuOpenEvent();
 
 
     public GameObject menuCanvas;
@@ -20,7 +25,7 @@ public class FunctionHandler : Singleton<FunctionHandler>
     
     public IEnumerator ToggleMenuDelay(bool toggle)
     {
-        menuOpenEvent?.Invoke(toggle);
+        MenuOpenEvent?.Invoke(toggle);
         menuCanvas.SetActive(toggle);
         uiCanvas.SetActive(!toggle);
 
@@ -34,6 +39,7 @@ public class FunctionHandler : Singleton<FunctionHandler>
         {
             yield return new WaitForSeconds(0.5f);
             GameManager.Instance.GameState = GameManager.GameStates.Player;
+            GameStart?.Invoke();
         }
     }
 }
