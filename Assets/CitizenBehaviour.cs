@@ -10,9 +10,11 @@ public class CitizenBehaviour : MonoBehaviour
     private float timer = 0f;
 
     private Vector3 startPos;
+    private Rigidbody rb;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody>();
         startPos = transform.position;
         speed = Random.Range(speedRange.x, speedRange.y);
         routeDuration = Random.Range(5f, 10f);
@@ -20,10 +22,10 @@ public class CitizenBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        //rb.velocity = Vector3.forward * speed;
         transform.Translate(Vector3.forward * speed);
-        
-      
+
+
     }
 
 

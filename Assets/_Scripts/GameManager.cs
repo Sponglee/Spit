@@ -13,7 +13,8 @@ public class GameManager : Singleton<GameManager>
     {
         Paused,
         Player,
-        Drop,
+        NoEnergy,
+        Fly,
         Finish
     };
 
@@ -37,7 +38,7 @@ public class GameManager : Singleton<GameManager>
                 case GameStates.Player:
                    
                     break;
-                case GameStates.Drop:
+                case GameStates.Fly:
                    
                     break;
                 case GameStates.Finish:
@@ -54,7 +55,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        GameState = GameStates.Paused;
+        GameState = GameState;
 
 
     }

@@ -13,7 +13,7 @@ public class DropController : MonoBehaviour
 
     public Rigidbody dropRigibody;
     public float dropForceMultiplier = 30f;
-
+   
     public class FinishEvent:UnityEvent<Transform> {}
     public static FinishEvent FinishTarget = new FinishEvent();
 
@@ -25,16 +25,22 @@ public class DropController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameManager.GameState == GameManager.GameStates.Drop)
+        if (gameManager.GameState == GameManager.GameStates.Fly)
         {
             if (Input.GetMouseButton(0))
             {
                
-                dropRigibody.AddForce((Vector3.forward * inputManager.input.y
-                                    + Vector3.right * inputManager.input.x) * dropForceMultiplier);
+                dropRigibody.velocity = (Vector3.forward /** inputManager.input.y*/ +
+                                     Vector3.right * inputManager.input.x) * dropForceMultiplier;
 
+                transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(transform.localPosition.x, 0, transform.localPosition.z), Time.deltaTime);
+            }
+            else
+            {
+                dropRigibody.velocity = Vector3.up * -dropForceMultiplier;
             }
         }
+      
     }
 
 
@@ -42,9 +48,9 @@ public class DropController : MonoBehaviour
     {
         if (collision.transform.CompareTag("Ground"))
         {
-            GameManager.Instance.GameState = GameManager.GameStates.Player;
+            //GameManager.Instance.GameState = GameManager.GameStates.Player;
             
-            ResetDrop();
+            //ResetDrop();
             
         }
       
@@ -52,15 +58,15 @@ public class DropController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Target"))
-        {
+        //if (other.transform.CompareTag("Target"))
+        //{
           
-            GameManager.Instance.GameState = GameManager.GameStates.Finish;
-            FinishTarget?.Invoke(other.transform);
-            gameObject.SetActive(false);
-            other.GetComponent<CitizenBehaviour>().enabled = false;
-            //ResetDrop();
-        }
+        //    GameManager.Instance.GameState = GameManager.GameStates.Finish;
+        //    FinishTarget?.Invoke(other.transform);
+        //    gameObject.SetActive(false);
+        //    other.GetComponent<CitizenBehaviour>().enabled = false;
+        //    //ResetDrop();
+        //}
     }
 
     public void ResetDrop()
