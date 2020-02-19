@@ -46,7 +46,7 @@ public class DropController : MonoBehaviour
 
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (gameManager.GameState == GameManager.GameStates.Fly)
         {
@@ -74,16 +74,22 @@ public class DropController : MonoBehaviour
             {
                 dropRigibody.velocity = Vector3.up * -dropForceMultiplier;
 
-                if(energy<=maxEnergy)
-                    Energy += energyRate;
+               
             }
         }
         else if( gameManager.GameState== GameManager.GameStates.NoEnergy)
         {
             dropRigibody.velocity = Vector3.up * -dropForceMultiplier;
-            if(Input.GetMouseButtonUp(0))
+
+
+            if (energy >= maxEnergy || Input.GetMouseButtonDown(0))
             {
                 GameManager.Instance.GameState = GameManager.GameStates.Fly;
+
+            }
+            else if(energy<maxEnergy)
+            {
+                Energy += energyRate * 5f;
             }
         }
         
@@ -94,11 +100,11 @@ public class DropController : MonoBehaviour
     {
         if (collision.transform.CompareTag("Ground"))
         {
-            
-           
-            
+
+            gameManager.GameState = GameManager.GameStates.NoEnergy;
+
             //ResetDrop();
-            
+
         }
       
     }

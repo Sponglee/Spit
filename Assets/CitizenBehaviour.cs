@@ -20,7 +20,7 @@ public class CitizenBehaviour : MonoBehaviour
         routeDuration = Random.Range(5f, 10f);
     }
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //rb.velocity = Vector3.forward * speed;
         transform.Translate(Vector3.forward * speed);
