@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour
+public class InputManager : Singleton<InputManager>
 {
 
 
@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
 
-            input = new Vector2(joystick.Vertical, joystick.Horizontal);
+            input = new Vector2(joystick.Horizontal,joystick.Vertical);
 
         }
     }
