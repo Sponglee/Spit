@@ -13,9 +13,9 @@ public class GameManager : Singleton<GameManager>
     {
         Paused,
         Player,
-        NoEnergy,
         Fly,
-        Finish
+        Finish,
+        NoEnergy
     };
 
 
