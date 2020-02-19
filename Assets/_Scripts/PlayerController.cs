@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameManager gameManager;
     //[SerializeField] private CameraManager cameraManager;
 
-    public bool CanDrop = true;
+    public bool CanDrop = false;
 
     public Rigidbody dropRigibody;
     public Transform droplet;
@@ -24,7 +24,11 @@ public class PlayerController : MonoBehaviour
     {
         if(gameManager.GameState == GameManager.GameStates.Player)
         {
-            if (Input.GetMouseButton(0))
+            if(Input.GetMouseButtonDown(0))
+            {
+                CanDrop = true;
+            }
+            else if (Input.GetMouseButton(0))
             {
 
                 Vector3 moveVector = (Vector3.up * inputManager.input.x/* + Vector3.left * inputManager.input.Vertical*/);
@@ -54,7 +58,8 @@ public class PlayerController : MonoBehaviour
                                         - Vector3.up * inputManager.input.y
                                         - Vector3.right * inputManager.input.x) * forceMultiplier);
 
-
+                CanDrop = false;
+                transform.rotation = Quaternion.identity;
                 gameManager.GameState = GameManager.GameStates.Drop;
             }
         }

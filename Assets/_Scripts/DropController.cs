@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DropController : MonoBehaviour
 {
@@ -13,7 +14,10 @@ public class DropController : MonoBehaviour
     public Rigidbody dropRigibody;
     public float dropForceMultiplier = 30f;
 
-  
+    public class FinishEvent:UnityEvent<Transform> {}
+    public static FinishEvent FinishTarget = new FinishEvent();
+    
+    
     // Update is called once per frame
     void Update()
     {
@@ -35,10 +39,31 @@ public class DropController : MonoBehaviour
         if (collision.transform.CompareTag("Ground"))
         {
             GameManager.Instance.GameState = GameManager.GameStates.Player;
-            dropRigibody.velocity = Vector3.zero;
-            transform.localPosition = Vector3.zero;
-            dropRigibody.isKinematic = true;
-            gameObject.SetActive(false);
+            
+            ResetDrop();
+            
         }
+      
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Target"))
+        {
+          
+            GameManager.Instance.GameState = GameManager.GameStates.Finish;
+            FinishTarget.Invoke(other.transform);
+            gameObject.SetActive(false);
+            other.GetComponent<CitizenBehaviour>().enabled = false;
+            //ResetDrop();
+        }
+    }
+
+    private void ResetDrop()
+    {
+        dropRigibody.velocity = Vector3.zero;
+        transform.localPosition = Vector3.zero;
+        dropRigibody.isKinematic = true;
+        gameObject.SetActive(false);
     }
 }

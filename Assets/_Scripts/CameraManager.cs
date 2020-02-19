@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 using System;
-
+using UnityEngine.Events;
 
 public class CameraManager : Singleton<CameraManager>
 {
@@ -16,8 +16,11 @@ public class CameraManager : Singleton<CameraManager>
 
     void Awake()
     {
+
+
+       
         GameObject[] tmpCameraObjects = GameObject.FindGameObjectsWithTag("VCam");
-        //Debug.Log(tmpCameraObjects.Length);
+        Debug.Log(tmpCameraObjects.Length);
         cameras = new CameraData[tmpCameraObjects.Length];
 
         for (int i = 0; i < tmpCameraObjects.Length; i++)
@@ -25,18 +28,39 @@ public class CameraManager : Singleton<CameraManager>
             cameras[i] = tmpCameraObjects[i].GetComponent<CameraData>();
         }
 
+      
     }
 
+
+    private void Start()
+    {
+        DropController.FinishTarget.AddListener(SetFinishTargetCam);
+    }
+
+    public void SetFinishTargetCam(Transform target = null)
+    {
+        liveCam.m_Follow = target;
+        liveCam.m_LookAt = target;
+    }
 
 
     public void SetLive(GameManager.GameStates stateName)
     {
         CinemachineVirtualCamera tmpCam;
-
+        
         tmpCam = FetchCam(stateName);
-        tmpCam.m_Priority = 10;
-        liveCam = tmpCam;
+        if(tmpCam != null)
+        {
+            tmpCam.m_Priority = 10;
+            liveCam = tmpCam;
+        }
+        else 
+        {
+            liveCam.m_Priority = 10;
+        }
+
     }
+
 
 
 
@@ -57,8 +81,7 @@ public class CameraManager : Singleton<CameraManager>
             }
         }
 
-
-
+        
         return tmpCam;
 
     }

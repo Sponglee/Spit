@@ -6,6 +6,7 @@ TagManager:
   tags:
   - VCam
   - Ground
+  - Target
   layers:
   - Default
   - TransparentFX
