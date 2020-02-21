@@ -34,8 +34,10 @@ public class DropController : MonoBehaviour
         }
     }
 
+    public float rotationSpeed = 1f;
+    public Vector2 rotationHorizontalBounds;
 
-   
+
     public class FinishEvent:UnityEvent<Transform> {}
     public static FinishEvent FinishTarget = new FinishEvent();
 
@@ -55,12 +57,23 @@ public class DropController : MonoBehaviour
             {
                 if(energy>=0)
                 {
-                    dropRigibody.velocity = (Vector3.forward /** inputManager.input.y*/ +
+                    dropRigibody.velocity = (Vector3.forward + Vector3.up * inputManager.input.y +
                                     Vector3.right * inputManager.input.x) * dropForceMultiplier;
 
-                    transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(transform.localPosition.x, 0, transform.localPosition.z), Time.deltaTime);
-                    Energy -= energyRate;
+                    transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z), Time.deltaTime);
+
                     
+
+                    Vector3 lookDirection = new Vector3(inputManager.input.x, inputManager.input.y / 2f, 1f);
+
+                    Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+                    float step = rotationSpeed * Time.deltaTime;
+                    transform.rotation = Quaternion.RotateTowards(lookRotation, transform.rotation, step);
+
+
+
+                    Energy -= energyRate* (Mathf.Abs(inputManager.input.x)+Mathf.Abs(inputManager.input.y));
                 }
                 else
                 {
@@ -72,15 +85,13 @@ public class DropController : MonoBehaviour
             }
             else
             {
-                dropRigibody.velocity = Vector3.up * -dropForceMultiplier;
+                DropDown();
 
-               
             }
         }
         else if( gameManager.GameState== GameManager.GameStates.NoEnergy)
         {
-            dropRigibody.velocity = Vector3.up * -dropForceMultiplier;
-
+            DropDown();
 
             if (energy >= maxEnergy || Input.GetMouseButtonDown(0))
             {
@@ -95,6 +106,14 @@ public class DropController : MonoBehaviour
         
     }
 
+    private void DropDown()
+    {
+        dropRigibody.velocity = Vector3.up * -dropForceMultiplier;
+        Vector3 lookDirection = -Vector3.up + Vector3.forward;
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+        float step = rotationSpeed * Time.deltaTime;
+        transform.rotation = Quaternion.RotateTowards(lookRotation, transform.rotation, step);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

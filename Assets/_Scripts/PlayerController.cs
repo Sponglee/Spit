@@ -34,11 +34,8 @@ public class PlayerController : MonoBehaviour
                 Vector3 moveVector = (Vector3.up * inputManager.input.x/* + Vector3.left * inputManager.input.Vertical*/);
                 if (inputManager.input.x != 0 || inputManager.input.y != 0)
                 {
-                    Vector3 lookDirection = new Vector3(-inputManager.input.x, -inputManager.input.y/5f, 1f);
-                    Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
-
-                    float step = rotationSpeed *Time.deltaTime;
-                    transform.rotation = Quaternion.RotateTowards(lookRotation, transform.rotation, step);
+                   
+                    
 
 
                     //transform.eulerAngles += Vector3.up * Mathf.Clamp((Mathf.Atan(inputManager.input.x) * Mathf.Rad2Deg * rotationSpeed *Time.deltaTime),rotationHorizontalBounds.x,rotationHorizontalBounds.y);
