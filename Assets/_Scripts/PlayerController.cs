@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
                 CanDrop = false;
                 transform.rotation = Quaternion.identity;
-                gameManager.GameState = GameManager.GameStates.Fly;
+                gameManager.GameState = GameManager.GameStates.CanFly;
             }
         }
         

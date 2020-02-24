@@ -13,9 +13,12 @@ public class GameManager : Singleton<GameManager>
     {
         Paused,
         Player,
-        Fly,
+        CanFly,
         Finish,
-        NoEnergy
+        NoEnergy,
+        Rest,
+        IsFlying
+
     };
 
 
@@ -38,7 +41,7 @@ public class GameManager : Singleton<GameManager>
                 case GameStates.Player:
                    
                     break;
-                case GameStates.Fly:
+                case GameStates.CanFly:
                    
                     break;
                 case GameStates.Finish:

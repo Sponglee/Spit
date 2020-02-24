@@ -9,7 +9,7 @@ public class SliderBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        DropController.OnEnergyChange.AddListener(UpdateSlider);
+        EnergyManager.OnEnergyChange.AddListener(UpdateSlider);
     }
 
 

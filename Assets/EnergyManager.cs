@@ -1,0 +1,83 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+public class EnegryChangeEvent : UnityEvent<float> { };
+
+
+public class EnergyManager : MonoBehaviour
+{
+    public static EnegryChangeEvent OnEnergyChange = new EnegryChangeEvent();
+
+    [SerializeField] private InputManager inputManager;
+    [SerializeField] private GameManager gameManager;
+
+    [SerializeField] private float energyRate = 1;
+    [SerializeField] private float maxEnergy = 100f;
+    [SerializeField] private float energy;
+    public float Energy
+    {
+        get
+        {
+            return energy;
+        }
+
+        set
+        {
+            energy = value;
+            OnEnergyChange?.Invoke(value / maxEnergy);
+
+            if(value <= 0)
+            {
+                gameManager.GameState = GameManager.GameStates.NoEnergy;
+            }
+            else if(value >= maxEnergy)
+            {
+                value = maxEnergy;
+                GameManager.Instance.GameState = GameManager.GameStates.CanFly;
+            }
+        }
+    }
+
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        Energy = maxEnergy;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if(gameManager.GameState == GameManager.GameStates.IsFlying)
+        {
+            Energy -= energyRate * (Mathf.Abs(inputManager.input.x) + Mathf.Abs(inputManager.input.y));
+            
+        }
+        else if(gameManager.GameState == GameManager.GameStates.NoEnergy)
+        {
+            if (energy >= maxEnergy)
+            {
+                GameManager.Instance.GameState = GameManager.GameStates.CanFly;
+
+            }
+
+        }
+        else if(gameManager.GameState == GameManager.GameStates.Rest)
+        {
+            if (energy <= maxEnergy)
+            {
+                Energy += energyRate * 5f;
+            }
+            else
+            {
+
+            }
+        }
+    }
+
+
+
+}

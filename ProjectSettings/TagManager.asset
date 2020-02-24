@@ -7,6 +7,7 @@ TagManager:
   - VCam
   - Ground
   - Target
+  - Food
   layers:
   - Default
   - TransparentFX
