@@ -1,65 +1,113 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : IManagable
 {
-    [SerializeField] private InputManager inputManager;
-    [SerializeField] private GameManager gameManager;
+
+   
     //[SerializeField] private CameraManager cameraManager;
 
-    public bool CanDrop = false;
+
 
     public Rigidbody dropRigibody;
-    public Transform droplet;
+    public float dropForceMultiplier = 30f;
 
-    public float forceMultiplier = 1f;
+
+
     public float rotationSpeed = 1f;
-
     public Vector2 rotationHorizontalBounds;
 
-    // Update is called once per frame
-    void Update()
+
+    public class FinishEvent : UnityEvent<Transform> { }
+    public static FinishEvent FinishTarget = new FinishEvent();
+
+    private void Start()
     {
-        if(gameManager.GameState == GameManager.GameStates.Player)
+
+        FunctionHandler.GameStart.AddListener(ResetDrop);
+
+    }
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (gameManager.GameState == GameManager.GameStates.IsFlying)
         {
-            if(Input.GetMouseButtonDown(0))
+
+            if (Input.GetMouseButton(0))
             {
-                CanDrop = true;
-            }
-            else if (Input.GetMouseButton(0))
-            {
-
-                Vector3 moveVector = (Vector3.up * inputManager.input.x/* + Vector3.left * inputManager.input.Vertical*/);
-                if (inputManager.input.x != 0 || inputManager.input.y != 0)
-                {
-                   
-                    
-
-
-                    //transform.eulerAngles += Vector3.up * Mathf.Clamp((Mathf.Atan(inputManager.input.x) * Mathf.Rad2Deg * rotationSpeed *Time.deltaTime),rotationHorizontalBounds.x,rotationHorizontalBounds.y);
-                   
-                    //transform.eulerAngles
-                    //   += Vector3.right * Mathf.Atan(joystick.Vertical) * Mathf.Rad2Deg * speed *
-                    //   Time.deltaTime;
-                }
-
-            }
-            else if (CanDrop && Input.GetMouseButtonUp(0))
-            {
-                dropRigibody.isKinematic = false;
-                droplet.gameObject.SetActive(true);
-
-                dropRigibody.AddForce((Vector3.forward * -inputManager.input.y
-                                        - Vector3.up * inputManager.input.y
-                                        - Vector3.right * inputManager.input.x) * forceMultiplier);
-
-                CanDrop = false;
-                transform.rotation = Quaternion.identity;
-                gameManager.GameState = GameManager.GameStates.CanFly;
+                MovePlayer();
             }
         }
-        
+        else if (gameManager.GameState == GameManager.GameStates.NoEnergy)
+        {
+            DropDown();
+        }
+        else if (gameManager.GameState == GameManager.GameStates.CanFly)
+        {
+            if (Input.GetMouseButton(0))
+            {
+                gameManager.GameState = GameManager.GameStates.IsFlying;
+
+            }
+        }
+
+    }
+
+    private void MovePlayer()
+    {
+        dropRigibody.velocity = (Vector3.forward + Vector3.up * inputManager.input.y +
+                               Vector3.right * inputManager.input.x) * dropForceMultiplier;
+
+        transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z), Time.deltaTime);
+
+
+
+        Vector3 lookDirection = new Vector3(inputManager.input.x, inputManager.input.y / 2f, 1f);
+
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+
+        float step = rotationSpeed * Time.deltaTime;
+        transform.rotation = Quaternion.RotateTowards(lookRotation, transform.rotation, step);
+    }
+
+
+    private void DropDown()
+    {
+        dropRigibody.velocity = Vector3.up * -dropForceMultiplier;
+        Vector3 lookDirection = -Vector3.up + Vector3.forward;
+        Quaternion lookRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+        float step = rotationSpeed * Time.deltaTime;
+        transform.rotation = Quaternion.RotateTowards(lookRotation, transform.rotation, step);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Food"))
+        {
+
+            gameManager.GameState = GameManager.GameStates.Rest;
+
+            //ResetDrop();
+
+        }
+    }
+
+
+
+    public void ResetDrop()
+    {
+        dropRigibody.velocity = Vector3.zero;
+        transform.localPosition = Vector3.zero;
+        dropRigibody.isKinematic = true;
+        gameObject.SetActive(false);
     }
 }

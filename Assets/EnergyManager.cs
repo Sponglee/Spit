@@ -6,12 +6,10 @@ using UnityEngine.Events;
 public class EnegryChangeEvent : UnityEvent<float> { };
 
 
-public class EnergyManager : MonoBehaviour
+public class EnergyManager : IManagable
 {
     public static EnegryChangeEvent OnEnergyChange = new EnegryChangeEvent();
 
-    [SerializeField] private InputManager inputManager;
-    [SerializeField] private GameManager gameManager;
 
     [SerializeField] private float energyRate = 1;
     [SerializeField] private float maxEnergy = 100f;
@@ -71,10 +69,7 @@ public class EnergyManager : MonoBehaviour
             {
                 Energy += energyRate * 5f;
             }
-            else
-            {
-
-            }
+          
         }
     }
 

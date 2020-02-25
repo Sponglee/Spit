@@ -12,12 +12,12 @@ public class GameManager : Singleton<GameManager>
     public enum GameStates
     {
         Paused,
-        Player,
+        LevelStarted,
         CanFly,
-        Finish,
+        IsFlying,
         NoEnergy,
         Rest,
-        IsFlying
+        Finish
 
     };
 
@@ -38,7 +38,7 @@ public class GameManager : Singleton<GameManager>
                 case GameStates.Paused:
                     
                     break;
-                case GameStates.Player:
+                case GameStates.LevelStarted:
                    
                     break;
                 case GameStates.CanFly:

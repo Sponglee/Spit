@@ -38,7 +38,7 @@ public class FunctionHandler : Singleton<FunctionHandler>
         else
         {
             yield return new WaitForSeconds(0.5f);
-            GameManager.Instance.GameState = GameManager.GameStates.Player;
+            GameManager.Instance.GameState = GameManager.GameStates.LevelStarted;
             GameStart?.Invoke();
         }
     }

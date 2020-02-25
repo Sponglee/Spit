@@ -8,9 +8,9 @@ using UnityEngine.Events;
 public class CameraManager : Singleton<CameraManager>
 {
 
-   
 
-    [SerializeField] private  CinemachineVirtualCamera liveCam = null;
+
+    [SerializeField] private CinemachineVirtualCamera liveCam = null;
 
     public static CameraData[] cameras;
 
@@ -18,7 +18,7 @@ public class CameraManager : Singleton<CameraManager>
     {
 
 
-       
+
         GameObject[] tmpCameraObjects = GameObject.FindGameObjectsWithTag("VCam");
         Debug.Log(tmpCameraObjects.Length);
         cameras = new CameraData[tmpCameraObjects.Length];
@@ -28,13 +28,13 @@ public class CameraManager : Singleton<CameraManager>
             cameras[i] = tmpCameraObjects[i].GetComponent<CameraData>();
         }
 
-      
+
     }
 
 
     private void Start()
     {
-        DropController.FinishTarget.AddListener(SetFinishTargetCam);
+        PlayerController.FinishTarget.AddListener(SetFinishTargetCam);
     }
 
     public void SetFinishTargetCam(Transform target = null)
@@ -47,14 +47,14 @@ public class CameraManager : Singleton<CameraManager>
     public void SetLive(GameManager.GameStates stateName)
     {
         CinemachineVirtualCamera tmpCam;
-        
+
         tmpCam = FetchCam(stateName);
-        if(tmpCam != null)
+        if (tmpCam != null)
         {
             tmpCam.m_Priority = 10;
             liveCam = tmpCam;
         }
-        else 
+        else
         {
             liveCam.m_Priority = 10;
         }
@@ -70,7 +70,7 @@ public class CameraManager : Singleton<CameraManager>
 
         foreach (var cam in cameras)
         {
-            
+
             if (cam.refState == state)
             {
                 tmpCam = cam.targetCam;
@@ -81,7 +81,7 @@ public class CameraManager : Singleton<CameraManager>
             }
         }
 
-        
+
         return tmpCam;
 
     }
