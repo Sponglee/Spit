@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 
-public class PlayerController : IManagable
+public class PlayerController : IncludeManagers
 {
 
    

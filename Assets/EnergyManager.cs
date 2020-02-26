@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class EnegryChangeEvent : UnityEvent<float> { };
 
 
-public class EnergyManager : IManagable
+public class EnergyManager : IncludeManagers
 {
     public static EnegryChangeEvent OnEnergyChange = new EnegryChangeEvent();
 

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IManagable : MonoBehaviour
+public abstract class IncludeManagers : MonoBehaviour
 {
     //Interface that contains references to gameManager, inputManager
 
-    public InputManager inputManager;
-    public GameManager gameManager;
+    protected InputManager inputManager;
+    protected GameManager gameManager;
 
     private void Awake()
     {

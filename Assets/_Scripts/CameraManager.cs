@@ -54,7 +54,7 @@ public class CameraManager : Singleton<CameraManager>
             tmpCam.m_Priority = 10;
             liveCam = tmpCam;
         }
-        else
+        else if(liveCam != null)
         {
             liveCam.m_Priority = 10;
         }
