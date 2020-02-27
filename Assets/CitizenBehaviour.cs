@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CitizenBehaviour : MonoBehaviour
+public class CitizenBehaviour : IncludeManagers, IInteractable
 {
     [SerializeField] private Vector2 speedRange;
     private float speed; 
@@ -37,4 +37,8 @@ public class CitizenBehaviour : MonoBehaviour
         }
     }
 
+    public void Interact(Transform target)
+    {
+        GameObject tmpObject = Instantiate(gameManager.poopPref, target.position, Quaternion.identity, target);
+    }
 }

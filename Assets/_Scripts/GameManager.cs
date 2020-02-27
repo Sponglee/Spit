@@ -21,7 +21,6 @@ public class GameManager : Singleton<GameManager>
 
     };
 
-
     [SerializeField] private GameStates gameState;
     public GameStates GameState
     {
@@ -55,6 +54,12 @@ public class GameManager : Singleton<GameManager>
             CameraManager.Instance.SetLive(value);
         }
     }
+
+    [Header ("")]
+    public GameObject poopPref;
+
+
+
 
     private void Start()
     {

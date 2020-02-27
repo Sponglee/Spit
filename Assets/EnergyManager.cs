@@ -40,13 +40,13 @@ public class EnergyManager : IncludeManagers
 
 
 
-    // Start is called before the first frame update
+ 
     void Start()
     {
         Energy = maxEnergy;
     }
 
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         if(gameManager.GameState == GameManager.GameStates.IsFlying)

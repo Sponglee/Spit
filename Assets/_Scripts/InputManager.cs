@@ -11,7 +11,7 @@ public class InputManager : Singleton<InputManager>
     public Vector2 input;
   
 
-    // Update is called once per frame
+
     void Update()
     {
         if (Input.GetMouseButton(0))
