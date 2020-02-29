@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class FoodBehaviour : IncludeManagers, IInteractable
 {
-    public void Interact(Transform target)
+    public void Interact(Vector3 point)
     {
-        if(target.CompareTag("Player"))
-        {
-            gameManager.GameState = GameManager.GameStates.Rest;
-        }
+        gameManager.GameState = GameManager.GameStates.Rest;
+      
     }
 }
 

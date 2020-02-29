@@ -98,7 +98,10 @@ public class PlayerController : IncludeManagers
     {
         if(other.gameObject.GetComponent<IInteractable>() != null)
         {
-            other.gameObject.GetComponent<IInteractable>().Interact(transform);
+            //Make other object interact
+            other.gameObject.GetComponent<IInteractable>().Interact(transform.position);
+            //Kill bird and point of contact
+            KillBird(transform.position);
         }
 
     }
@@ -110,5 +113,14 @@ public class PlayerController : IncludeManagers
        
        
        
+    }
+
+
+    public void KillBird(Vector3 point)
+    {
+
+        GameObject tmpObject = Instantiate(gameManager.deathEffect, point, Quaternion.identity, transform);
+        gameManager.GameState = GameManager.GameStates.NoEnergy;
+
     }
 }

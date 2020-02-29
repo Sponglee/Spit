@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CitizenBehaviour : IncludeManagers, IInteractable
 {
+    public int CitizenScoreValue = 1;
+
     [SerializeField] private Vector2 speedRange;
     private float speed; 
     private float routeDuration = 5f;
@@ -19,7 +21,8 @@ public class CitizenBehaviour : IncludeManagers, IInteractable
         speed = Random.Range(speedRange.x, speedRange.y);
         routeDuration = Random.Range(5f, 10f);
     }
-    // Update is called once per frame
+
+
     void FixedUpdate()
     {
         //rb.velocity = Vector3.forward * speed;
@@ -37,8 +40,11 @@ public class CitizenBehaviour : IncludeManagers, IInteractable
         }
     }
 
-    public void Interact(Transform target)
+    //Interact with player (Reaction)
+    public void Interact(Vector3 target)
     {
-        GameObject tmpObject = Instantiate(gameManager.poopPref, target.position, Quaternion.identity, target);
+       
+
     }
+
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoopTriggerBehaviour : MonoBehaviour
+public class PoopTriggerBehaviour : IncludeManagers
 {
 
     [SerializeField] Transform playerReference;
@@ -42,10 +42,10 @@ public class PoopTriggerBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!OnCoolDown && other.gameObject.GetComponent<IInteractable>() != null)
+        if (other.CompareTag("Citizen") && !OnCoolDown)
         {
             OnCoolDown = true;
-            other.gameObject.GetComponent<IInteractable>().Interact(transform);
+            ShootPoop(other.transform);
         }
 
     }
@@ -54,5 +54,12 @@ public class PoopTriggerBehaviour : MonoBehaviour
     private void FixedUpdate()
     {
         transform.position = playerReference.position;
+    }
+
+    //Shoot when triggered an interactable
+    private void ShootPoop(Transform target)
+    {
+        GameObject tmpObject = Instantiate(gameManager.poopPref, playerReference.position, Quaternion.identity, transform);
+        tmpObject.GetComponent<PoopBehaviour>().PoopTarget = target;
     }
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IInteractable 
 {
-    void Interact(Transform target);
+    void Interact(Vector3 target);
 }

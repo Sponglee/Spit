@@ -8,6 +8,9 @@ TagManager:
   - Ground
   - Target
   - Food
+  - lb_groundTarget
+  - lb_perchTarget
+  - Citizen
   layers:
   - Default
   - TransparentFX
