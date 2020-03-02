@@ -59,7 +59,7 @@ public class PoopTriggerBehaviour : IncludeManagers
     //Shoot when triggered an interactable
     private void ShootPoop(Transform target)
     {
-        GameObject tmpObject = Instantiate(gameManager.poopPref, playerReference.position, Quaternion.identity, transform);
+        GameObject tmpObject = Instantiate(gameManager.poopPref, playerReference.position, Quaternion.identity, target);
         tmpObject.GetComponent<PoopBehaviour>().PoopTarget = target;
     }
 }

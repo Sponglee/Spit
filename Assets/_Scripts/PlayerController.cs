@@ -26,13 +26,14 @@ public class PlayerController : IncludeManagers
     private void Start()
     {
 
-        FunctionHandler.GameStart.AddListener(ResetDrop);
+        //FunctionHandler.GameStart.AddListener(ResetDrop);
 
     }
     
 
     void FixedUpdate()
     {
+
         if (gameManager.GameState == GameManager.GameStates.IsFlying)
         {
 
@@ -47,11 +48,11 @@ public class PlayerController : IncludeManagers
         }
         else if (gameManager.GameState == GameManager.GameStates.CanFly)
         {
-            if (Input.GetMouseButton(0))
+            if(Input.GetMouseButtonDown(0))
             {
                 gameManager.GameState = GameManager.GameStates.IsFlying;
-
             }
+
         }
         else if(gameManager.GameState == GameManager.GameStates.Rest)
         {
@@ -100,8 +101,10 @@ public class PlayerController : IncludeManagers
         {
             //Make other object interact
             other.gameObject.GetComponent<IInteractable>().Interact(transform.position);
-            //Kill bird and point of contact
-            KillBird(transform.position);
+
+            if(other.CompareTag("Citizen"))
+                //Kill bird and point of contact
+                KillBird(transform.position);
         }
 
     }
@@ -109,7 +112,7 @@ public class PlayerController : IncludeManagers
 
     public void ResetDrop()
     {
-        dropRigibody.velocity = Vector3.zero;
+        //dropRigibody.velocity = Vector3.zero;
        
        
        

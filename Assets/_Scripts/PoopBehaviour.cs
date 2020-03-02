@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PoopBehaviour : IncludeManagers
 {
+    [SerializeField] private float poopSpeed = 1f;
+
     [SerializeField]private Transform poopTarget = null;
     public Transform PoopTarget
     {
@@ -19,9 +21,10 @@ public class PoopBehaviour : IncludeManagers
     }
 
     //Drop down
-    void Update()
+    void FixedUpdate()
     {
-        transform.Translate((-transform.position+poopTarget.position).normalized);
+        transform.Translate(Vector3.down * poopSpeed);
+        //transform.Translate((-transform.position+poopTarget.position).normalized*poopSpeed);
     }
 
     private void OnTriggerEnter(Collider other)

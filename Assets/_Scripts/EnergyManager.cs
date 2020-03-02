@@ -30,7 +30,7 @@ public class EnergyManager : IncludeManagers
             {
                 gameManager.GameState = GameManager.GameStates.NoEnergy;
             }
-            else if(value >= maxEnergy)
+            else if(value > maxEnergy)
             {
                 value = maxEnergy;
                 GameManager.Instance.GameState = GameManager.GameStates.CanFly;

@@ -31,26 +31,11 @@ public class GameManager : Singleton<GameManager>
         set
         {
 
-            switch (value)
-            {
-                case GameStates.Paused:
-                    
-                    break;
-                case GameStates.LevelStarted:
-                   
-                    break;
-                case GameStates.CanFly:
-                   
-                    break;
-                case GameStates.Finish:
-                   
-                    break;
-                default:
-                    break;
-            }
+           
             Debug.Log(value);
             gameState = value;
             CameraManager.Instance.SetLive(value);
+            FunctionHandler.Instance.SetActiveCanvas(value);
         }
     }
     public int Score
@@ -83,15 +68,25 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        GameState = GameState;
+        GameState = GameStates.Paused;
         UpdateScore.AddListener(CalculateScore);
 
     }
 
+    private void Update()
+    {
+        if(GameState == GameStates.LevelStarted)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                GameState = GameStates.IsFlying;
+            }
+        }
+    }
 
     private void CalculateScore(int value)
     {
-
+        Score += value;
     }
     
 }

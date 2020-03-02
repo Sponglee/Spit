@@ -6,8 +6,9 @@ using UnityEngine;
 public class CameraData : MonoBehaviour
 {
     public CinemachineVirtualCamera targetCam;
-    public string targetName;
+    public Canvas targetCanvas;
     public GameManager.GameStates refState;
+
 
 }
 

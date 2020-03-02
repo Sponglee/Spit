@@ -11,6 +11,8 @@ TagManager:
   - lb_groundTarget
   - lb_perchTarget
   - Citizen
+  - UICanvas
+  - Canvas
   layers:
   - Default
   - TransparentFX
