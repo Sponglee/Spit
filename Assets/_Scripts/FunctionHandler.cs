@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
-
+using UnityEngine.SceneManagement;
 
 public class GameStartEvent : UnityEvent { };
 public class MenuOpenEvent : UnityEvent<bool> { };
@@ -76,6 +75,11 @@ public class FunctionHandler : Singleton<FunctionHandler>
                     targetCanvas = uiCanvas;
                 }
                 break;
+            case GameManager.GameStates.Rest:
+                {
+                    targetCanvas = uiCanvas;
+                }
+                break;
             case GameManager.GameStates.Finish:
                 {
                     targetCanvas = gameOverCanvas;
@@ -105,5 +109,10 @@ public class FunctionHandler : Singleton<FunctionHandler>
         }
     }
 
+
+    public void RestartScene()
+    {
+        SceneManager.LoadScene("Main");
+    }
   
 }

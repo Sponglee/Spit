@@ -51,7 +51,7 @@ public class EnergyManager : IncludeManagers
     {
         if(gameManager.GameState == GameManager.GameStates.IsFlying)
         {
-            Energy -= energyRate * (Mathf.Abs(inputManager.input.x) + Mathf.Abs(inputManager.input.y));
+            Energy -= energyRate * (/*Mathf.Abs(inputManager.input.x)*/ + Mathf.Clamp(inputManager.input.y,0f,1f));
             
         }
         else if(gameManager.GameState == GameManager.GameStates.NoEnergy)

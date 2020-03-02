@@ -48,7 +48,7 @@ public class PlayerController : IncludeManagers
         }
         else if (gameManager.GameState == GameManager.GameStates.CanFly)
         {
-            if(Input.GetMouseButtonDown(0))
+            if(Input.GetMouseButton(0))
             {
                 gameManager.GameState = GameManager.GameStates.IsFlying;
             }

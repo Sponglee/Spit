@@ -86,7 +86,8 @@ public class GameManager : Singleton<GameManager>
 
     private void CalculateScore(int value)
     {
-        Score += value;
+        if (GameState == GameStates.IsFlying)
+            Score += value;
     }
     
 }
